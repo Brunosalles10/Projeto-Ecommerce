@@ -23,7 +23,7 @@ public class Usuario {
     private Integer senha;
 
     @Column
-    private Integer telefone;
+    private String telefone;
 
     @Column
     private String endereco;
@@ -60,11 +60,11 @@ public class Usuario {
         this.senha = senha;
     }
 
-    public Integer getTelefone() {
+    public String getTelefone() {
         return telefone;
     }
 
-    public void setTelefone(Integer telefone) {
+    public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
 
