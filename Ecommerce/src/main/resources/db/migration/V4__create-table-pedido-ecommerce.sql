@@ -1,0 +1,8 @@
+CREATE TABLE Pedido (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT NOT NULL,
+    data_pedido DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    status ENUM('PENDENTE', 'PAGO', 'ENVIADO', 'CANCELADO') NOT NULL,
+    valor_total DECIMAL(10, 2),
+    FOREIGN KEY (usuario_id) REFERENCES Usuario(id)
+);

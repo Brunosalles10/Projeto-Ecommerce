@@ -2,6 +2,7 @@ package br.Projeto.Ecommerce.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -27,6 +28,10 @@ public class Usuario {
 
     @Column
     private String endereco;
+
+    //@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL) criar logico para apresentar pedido aqui
+    //private List<Pedido> pedidos;
+
 
     public Integer getId() {
         return id;
