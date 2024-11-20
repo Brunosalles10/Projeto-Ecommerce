@@ -1,12 +1,17 @@
 package br.Projeto.Ecommerce.model;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Pedido")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})  // Ignora as propriedades
 public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +29,9 @@ public class Pedido {
 
     @Column(name = "valor_total")
     private BigDecimal valorTotal;
+
+    @OneToMany(mappedBy = "pedidoId", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ItemPedido> itempedido = new ArrayList<>();
 
     public Integer getId() {
         return id;

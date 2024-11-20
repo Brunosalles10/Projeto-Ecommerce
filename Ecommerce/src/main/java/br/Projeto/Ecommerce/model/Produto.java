@@ -1,13 +1,17 @@
 package br.Projeto.Ecommerce.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Produto")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})  // Ignora as propriedades
 public class Produto {
 
     @Id
@@ -31,6 +35,9 @@ public class Produto {
     @JoinColumn(name = "categoria_id", referencedColumnName = "id")
     @JsonBackReference
     private Categoria categoria;
+
+    @OneToMany(mappedBy = "produtoId", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ItemPedido> itempedido = new ArrayList<>();
 
     public Produto() {}
 

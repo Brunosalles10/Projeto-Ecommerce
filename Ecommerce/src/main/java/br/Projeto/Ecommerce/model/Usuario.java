@@ -29,8 +29,8 @@ public class Usuario {
     @Column
     private String endereco;
 
-    //@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL) criar logico para apresentar pedido aqui
-    //private List<Pedido> pedidos;
+    @OneToMany(mappedBy = "usuario_id", cascade = CascadeType.ALL)
+    private List<Pedido> pedidos;
 
 
     public Integer getId() {
