@@ -10,5 +10,7 @@ import java.math.BigDecimal;
 public record ItemPedidoRequestDTO(@NotNull Integer pedidoId,
                                    @NotNull Integer produtoId,
                                    @NotNull Integer quantidade,
-                                   @NotNull @Positive BigDecimal preco){
+                                   @NotNull @Positive BigDecimal preco
+
+                                 ){
 }

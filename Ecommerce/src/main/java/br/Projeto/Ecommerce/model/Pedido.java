@@ -33,6 +33,10 @@ public class Pedido {
     @OneToMany(mappedBy = "pedidoId", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemPedido> itempedido = new ArrayList<>();
 
+
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Pagamento> pagamentos = new ArrayList<>();
+
     public Integer getId() {
         return id;
     }

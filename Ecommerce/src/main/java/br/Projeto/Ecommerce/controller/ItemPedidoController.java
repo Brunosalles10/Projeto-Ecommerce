@@ -10,6 +10,7 @@ import br.Projeto.Ecommerce.repository.PedidoRepository;
 import br.Projeto.Ecommerce.repository.ProdutoRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -41,16 +42,19 @@ public class ItemPedidoController {
     public ResponseEntity <ItemPedido> findById(@PathVariable Integer id){
         ItemPedido itempedido = repository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "item do pedido não encontrado"));
+        ;
 
                 return ResponseEntity.ok(itempedido);
     }
+
+
 
     @PostMapping
     public ResponseEntity <ItemPedido> create(@Valid @RequestBody ItemPedidoRequestDTO dto) {
        Pedido pedido = pedidoRepository.findById(dto.pedidoId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Pedido não encontrado"));
 
-       Produto produto = produtoRepository.findById(dto.produtoId())
+        Produto produto = produtoRepository.findById(dto.produtoId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto não encontrado"));
 
         ItemPedido itempedido = new ItemPedido();
