@@ -1,7 +1,7 @@
 package br.Projeto.Ecommerce.controller;
 
-
 import br.Projeto.Ecommerce.dto.UsuarioRequestDTO;
+import br.Projeto.Ecommerce.response.UsuarioResponseDTO;
 import br.Projeto.Ecommerce.model.Usuario;
 import br.Projeto.Ecommerce.repository.UsuarioRepository;
 import jakarta.validation.Valid;
@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
 
 import java.util.List;
 
@@ -21,16 +22,20 @@ public class UsuarioController {
     private UsuarioRepository repository;
 
     @GetMapping
-    public ResponseEntity<List<Usuario>> findAll() {
-        List<Usuario> usuario = repository.findAll();
-        return ResponseEntity.ok(usuario);
+    public ResponseEntity<List<UsuarioResponseDTO>> findAll() {
+        List<Usuario> usuarios = repository.findAll();
+        List<UsuarioResponseDTO> responseDTOs = usuarios.stream()
+                .map(UsuarioResponseDTO::new)//transforma cada obejto de usuario em responsedto
+                .toList();
+        return ResponseEntity.ok(responseDTOs);
     }
 
     @GetMapping("/{id}")
-    public Usuario findById(@PathVariable Integer id) {
-            return this.repository.findById(id).orElseThrow(() ->
-        new IllegalArgumentException("Usuario não encontrado"));
-    }
+    public ResponseEntity<UsuarioResponseDTO> findById(@PathVariable Integer id) {
+        Usuario usuario = repository.findById(id).orElseThrow(() ->
+                new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado"));
+        return ResponseEntity.ok(new UsuarioResponseDTO(usuario));}
+
 
     @PostMapping
     public ResponseEntity<Usuario> save(@Valid @RequestBody UsuarioRequestDTO dto){
@@ -47,13 +52,14 @@ public class UsuarioController {
 
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer id){
-        Usuario usuario = repository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado"));
-        repository.delete(usuario);
-        return ResponseEntity.noContent().build();
-    }
+        @DeleteMapping("/{id}")
+        public ResponseEntity<String> delete(@PathVariable Integer id) {
+            Usuario usuario = repository.findById(id)
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado"));
+            repository.delete(usuario);
+            return ResponseEntity.ok("Usuário removido com sucesso");
+        }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<Usuario> update(@PathVariable Integer id,@Valid @RequestBody UsuarioRequestDTO dto){

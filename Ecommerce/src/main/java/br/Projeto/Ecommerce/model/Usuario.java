@@ -17,19 +17,19 @@ public class Usuario {
     @Column
     private String nome;
 
-    @Column
+    @Column(unique = true)
     private String email;
 
-    @Column
-    private Integer senha;
+    @Column(nullable = false)
+    private String senha;
 
     @Column
     private String telefone;
 
-    @Column
+    @Column(length = 500)
     private String endereco;
 
-    @OneToMany(mappedBy = "usuario_id", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "usuario_id", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Pedido> pedidos;
 
 
@@ -57,11 +57,11 @@ public class Usuario {
         this.email = email;
     }
 
-    public Integer getSenha() {
+    public String getSenha() {
         return senha;
     }
 
-    public void setSenha(Integer senha) {
+    public void setSenha(String senha) {
         this.senha = senha;
     }
 
