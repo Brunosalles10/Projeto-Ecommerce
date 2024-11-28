@@ -39,6 +39,9 @@ public class Produto {
     @OneToMany(mappedBy = "produtoId", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemPedido> itempedido = new ArrayList<>();
 
+    @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL)
+    private List<Pagamento> pagamentos;
+
     public Produto() {}
 
     public Produto(Integer id, String name, String descricao, BigDecimal preco, Integer estoque, Categoria categoria) {

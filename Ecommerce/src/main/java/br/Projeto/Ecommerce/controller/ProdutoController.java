@@ -42,7 +42,8 @@ public class ProdutoController {
         produto.setDescricao(dto.descricao());
         produto.setPreco(dto.preco());
         produto.setEstoque(dto.estoque());
-        produto.setCategoria(dto.categoria());
+
+
 
         this.repository.save(produto);
         return ResponseEntity.status(HttpStatus.CREATED).body(produto);
@@ -66,7 +67,7 @@ public class ProdutoController {
         produto.setDescricao(dto.descricao());
         produto.setPreco(dto.preco());
         produto.setEstoque(dto.estoque());
-        produto.setCategoria(dto.categoria());
+
 
         repository.save(produto);
         return ResponseEntity.ok(produto);

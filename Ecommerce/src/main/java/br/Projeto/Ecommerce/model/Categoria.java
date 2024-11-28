@@ -64,6 +64,14 @@ public class Categoria {
         this.descricao = descricao;
     }
 
+
+    public Categoria(Integer id, String nome, String descricao, List<Produto> produtos) {
+        this.id = id;
+        this.nome = nome;
+        this.descricao = descricao;
+        this.produtos = produtos;
+    }
+
     @Override
     public String toString() {
         return "Categoria{" +

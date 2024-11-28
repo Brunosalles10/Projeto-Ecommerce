@@ -4,19 +4,18 @@ import br.Projeto.Ecommerce.dto.ItemPedidoRequestDTO;
 import br.Projeto.Ecommerce.model.ItemPedido;
 import br.Projeto.Ecommerce.model.Pedido;
 import br.Projeto.Ecommerce.model.Produto;
-import br.Projeto.Ecommerce.model.Usuario;
 import br.Projeto.Ecommerce.repository.ItemPedidoRepository;
 import br.Projeto.Ecommerce.repository.PedidoRepository;
 import br.Projeto.Ecommerce.repository.ProdutoRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+
 
 @RestController
 @RequestMapping({"/api/item-pedidos"})
@@ -38,13 +37,15 @@ public class ItemPedidoController {
 
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity <ItemPedido> findById(@PathVariable Integer id){
-        ItemPedido itempedido = repository.findById(id).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "item do pedido não encontrado"));
-        ;
 
-                return ResponseEntity.ok(itempedido);
+
+
+   @GetMapping("/{id}")
+    public ResponseEntity <ItemPedido> findById(@PathVariable Integer id){
+      ItemPedido itempedido = repository.findById(id).orElseThrow(
+        () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "item do pedido não encontrado"));
+
+              return ResponseEntity.ok(itempedido);
     }
 
 
@@ -54,14 +55,17 @@ public class ItemPedidoController {
        Pedido pedido = pedidoRepository.findById(dto.pedidoId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Pedido não encontrado"));
 
-        Produto produto = produtoRepository.findById(dto.produtoId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto não encontrado"));
+     Produto produto = produtoRepository.findById(dto.produtoId())
+         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto não encontrado"));
+
 
         ItemPedido itempedido = new ItemPedido();
         itempedido.setPedidoId(pedido);
         itempedido.setProdutoId(produto);
+
         itempedido.setPreco(dto.preco());
         itempedido.setQuantidade(dto.quantidade());
+
 
         repository.save(itempedido);
         return ResponseEntity.status(HttpStatus.CREATED).body(itempedido);

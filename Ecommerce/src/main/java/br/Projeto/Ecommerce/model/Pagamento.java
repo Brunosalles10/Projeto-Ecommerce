@@ -26,6 +26,10 @@ public class Pagamento {
     @Column(name = ("valor"))
     private BigDecimal valor;
 
+    @ManyToOne
+    @JoinColumn(name = "produto_id", referencedColumnName = "id")
+    private Produto produto;
+
     public Integer getId() {
         return id;
     }
