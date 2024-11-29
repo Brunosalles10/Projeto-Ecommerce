@@ -3,6 +3,8 @@ package br.Projeto.Ecommerce.controller;
 import br.Projeto.Ecommerce.dto.CategoriaRequestDTO;
 import br.Projeto.Ecommerce.model.Categoria;
 import br.Projeto.Ecommerce.repository.CategoriaRepository;
+import br.Projeto.Ecommerce.response.CategoriaResponseDTO;
+import br.Projeto.Ecommerce.response.ProdutoResponseDTO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,10 +26,14 @@ public class CategoriaController {
             return ResponseEntity.ok(categoria);
         }
 
+
+
         @GetMapping("/{id}")
         public Categoria findById(@PathVariable Integer id) {
             return this.repository.findById(id).orElseThrow(() ->
                     new ResponseStatusException(HttpStatus.NOT_FOUND, "Categoria não encontrada"));
+
+
         }
 
         @PostMapping

@@ -25,8 +25,8 @@ public class UsuarioController {
     public ResponseEntity<List<UsuarioResponseDTO>> findAll() {
         List<Usuario> usuarios = repository.findAll();
         List<UsuarioResponseDTO> responseDTOs = usuarios.stream()
-                .map(UsuarioResponseDTO::new)//transforma cada obejto de usuario em responsedto
-                .toList();
+                .map(UsuarioResponseDTO::new)//transforma cada obejto  usuario em responsedto
+                .toList();//retorna em uma nova lista
         return ResponseEntity.ok(responseDTOs);
     }
 

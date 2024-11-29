@@ -1,9 +1,9 @@
 package br.Projeto.Ecommerce.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,15 +21,22 @@ public class Categoria {
     private String descricao;
 
 
-    @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, orphanRemoval = true)
+//    @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToMany
+    @JoinTable(
+        name = "categoria_produto",
+        joinColumns = @JoinColumn(name = "categoria_id"),
+        inverseJoinColumns = @JoinColumn(name = "produto_id"))
     @JsonManagedReference
-    private List<Produto> produtos;
+    private List<Produto> produtos = new ArrayList<>();
 
     public Categoria() {}
 
-    public Categoria(String nome, String descricao) {
+    public Categoria(Integer id, String nome, String descricao, List<Produto> produtos) {
+        this.id = id;
         this.nome = nome;
         this.descricao = descricao;
+        this.produtos = produtos;
     }
 
     public List<Produto> getProdutos() {
@@ -65,12 +72,7 @@ public class Categoria {
     }
 
 
-    public Categoria(Integer id, String nome, String descricao, List<Produto> produtos) {
-        this.id = id;
-        this.nome = nome;
-        this.descricao = descricao;
-        this.produtos = produtos;
-    }
+
 
     @Override
     public String toString() {

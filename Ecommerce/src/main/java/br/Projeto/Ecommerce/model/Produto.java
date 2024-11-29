@@ -31,10 +31,9 @@ public class Produto {
     private Integer estoque;
 
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "categoria_id", referencedColumnName = "id")
+    @ManyToMany(mappedBy = "produtos", fetch = FetchType.LAZY)
     @JsonBackReference
-    private Categoria categoria;
+    private List<Categoria> categoria = new ArrayList<>();
 
     @OneToMany(mappedBy = "produtoId", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemPedido> itempedido = new ArrayList<>();
@@ -44,7 +43,8 @@ public class Produto {
 
     public Produto() {}
 
-    public Produto(Integer id, String name, String descricao, BigDecimal preco, Integer estoque, Categoria categoria) {
+    public Produto(Integer id, String name, String descricao, BigDecimal preco, Integer estoque,
+                   List<Categoria> categoria) {
         this.id = id;
         this.name = name;
         this.descricao = descricao;
@@ -93,11 +93,11 @@ public class Produto {
         this.estoque = estoque;
     }
 
-    public Categoria getCategoria() {
+    public List <Categoria> getCategoria() {
         return categoria;
     }
 
-    public void setCategoria (Categoria categoria) {
+    public void setCategoria (List <Categoria> categoria) {
         this.categoria = categoria;
     }
 
