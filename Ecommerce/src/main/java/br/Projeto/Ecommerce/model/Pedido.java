@@ -1,7 +1,9 @@
 package br.Projeto.Ecommerce.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -31,11 +33,29 @@ public class Pedido {
     private BigDecimal valorTotal;
 
     @OneToMany(mappedBy = "pedidoId", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<ItemPedido> itempedido = new ArrayList<>();
 
 
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonBackReference
     private List<Pagamento> pagamentos = new ArrayList<>();
+
+    public List<ItemPedido> getItempedido() {
+        return itempedido;
+    }
+
+    public void setItempedido(List<ItemPedido> itempedido) {
+        this.itempedido = itempedido;
+    }
+
+    public List<Pagamento> getPagamentos() {
+        return pagamentos;
+    }
+
+    public void setPagamentos(List<Pagamento> pagamentos) {
+        this.pagamentos = pagamentos;
+    }
 
     public Integer getId() {
         return id;

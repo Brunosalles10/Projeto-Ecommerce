@@ -33,12 +33,13 @@ public class Produto {
 
     @ManyToMany(mappedBy = "produtos", fetch = FetchType.LAZY)
     @JsonBackReference
-    private List<Categoria> categoria = new ArrayList<>();
+     private List<Categoria> categoria = new ArrayList<>();
 
     @OneToMany(mappedBy = "produtoId", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemPedido> itempedido = new ArrayList<>();
 
     @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL)
+    @JsonBackReference
     private List<Pagamento> pagamentos;
 
     public Produto() {}

@@ -5,6 +5,7 @@ import br.Projeto.Ecommerce.model.Pedido;
 import br.Projeto.Ecommerce.model.Usuario;
 import br.Projeto.Ecommerce.repository.PedidoRepository;
 import br.Projeto.Ecommerce.repository.UsuarioRepository;
+import br.Projeto.Ecommerce.response.PedidoResponseDTO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,7 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/Pedido")
+@RequestMapping("/api/pedidos")
 public class PedidoController {
 
     @Autowired
@@ -26,17 +27,20 @@ public class PedidoController {
 
 
     @GetMapping
-    public ResponseEntity<List<Pedido>> findAll() {
-        List<Pedido> pedido = repository.findAll();
-        return ResponseEntity.ok(pedido);
-
+    public ResponseEntity<List<PedidoResponseDTO>> findAll() {
+        List<Pedido> pedidos = repository.findAll();
+        List<PedidoResponseDTO> responseDTOs = pedidos.stream()
+                .map(PedidoResponseDTO::new)
+                .toList();
+        return ResponseEntity.ok(responseDTOs);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Pedido> findById(@PathVariable Integer id) {
+    public ResponseEntity<PedidoResponseDTO> findById(@PathVariable Integer id) {
         Pedido pedido = repository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Pedido não encontrado"));
-        return ResponseEntity.ok(pedido);
+        PedidoResponseDTO responseDTO = new PedidoResponseDTO(pedido);
+        return ResponseEntity.ok(responseDTO);
     }
 
     @PostMapping

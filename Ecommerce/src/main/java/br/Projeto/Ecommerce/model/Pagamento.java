@@ -1,5 +1,7 @@
 package br.Projeto.Ecommerce.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -15,6 +17,7 @@ public class Pagamento {
 
     @ManyToOne
     @JoinColumn(name = "pedido_id")
+    @JsonManagedReference
     private Pedido pedido;
 
     @Column(name = ("forma_pagamento"))
@@ -28,6 +31,7 @@ public class Pagamento {
 
     @ManyToOne
     @JoinColumn(name = "produto_id", referencedColumnName = "id")
+    @JsonManagedReference
     private Produto produto;
 
     public Integer getId() {

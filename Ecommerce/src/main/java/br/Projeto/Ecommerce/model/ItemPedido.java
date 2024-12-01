@@ -1,6 +1,7 @@
 package br.Projeto.Ecommerce.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
@@ -17,6 +18,7 @@ public class ItemPedido {
 
     @ManyToOne(fetch = FetchType.LAZY)// carrega sob demanda
     @JoinColumn(name = "pedido_id", referencedColumnName = "id")
+    @JsonBackReference
     private Pedido pedidoId;
 
     @ManyToOne(fetch = FetchType.LAZY)// carrega sob demanda

@@ -7,6 +7,7 @@ import br.Projeto.Ecommerce.model.Produto;
 import br.Projeto.Ecommerce.repository.ItemPedidoRepository;
 import br.Projeto.Ecommerce.repository.PedidoRepository;
 import br.Projeto.Ecommerce.repository.ProdutoRepository;
+import br.Projeto.Ecommerce.response.ItemPedidoResponseDTO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,24 +31,43 @@ public class ItemPedidoController {
     @Autowired
     private ProdutoRepository produtoRepository;
 
+//    @GetMapping
+//    public ResponseEntity <List<ItemPedido>> findAll(){
+//        List <ItemPedido> itemPedido = repository.findAll();
+//        return ResponseEntity.ok(itemPedido);
+//
+//    }
+
+
     @GetMapping
-    public ResponseEntity <List<ItemPedido>> findAll(){
-        List <ItemPedido> itemPedido = repository.findAll();
-        return ResponseEntity.ok(itemPedido);
+    public ResponseEntity <List<ItemPedidoResponseDTO>> findAll() {
+        List<ItemPedido> itens = repository.findAll();
+        List<ItemPedidoResponseDTO> responseDTOS = itens.stream().
+                map(ItemPedidoResponseDTO::new).toList();
+        return  ResponseEntity.ok(responseDTOS);
 
     }
 
 
 
 
-   @GetMapping("/{id}")
-    public ResponseEntity <ItemPedido> findById(@PathVariable Integer id){
-      ItemPedido itempedido = repository.findById(id).orElseThrow(
-        () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "item do pedido não encontrado"));
+//   @GetMapping("/{id}")
+//    public ResponseEntity <ItemPedido> findById(@PathVariable Integer id){
+//      ItemPedido itempedido = repository.findById(id).orElseThrow(
+//        () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "item do pedido não encontrado"));
+//
+//              return ResponseEntity.ok(itempedido);
+//    }
 
-              return ResponseEntity.ok(itempedido);
-    }
 
+    @GetMapping("/{id}")
+ public ResponseEntity <ItemPedidoResponseDTO> findById(@PathVariable Integer id){
+        ItemPedido itens = repository.findById(id).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND,"ITEM DO PEDIDO NÃO ENCONTRADO")
+        );
+        ItemPedidoResponseDTO responseDTO = new ItemPedidoResponseDTO(itens);
+        return ResponseEntity.ok(responseDTO);
+ }
 
 
     @PostMapping

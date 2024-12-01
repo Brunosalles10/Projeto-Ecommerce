@@ -21,7 +21,7 @@ public class Categoria {
     private String descricao;
 
 
-//    @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, orphanRemoval = true)
+
     @ManyToMany
     @JoinTable(
         name = "categoria_produto",

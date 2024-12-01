@@ -1,6 +1,6 @@
 package br.Projeto.Ecommerce.dto;
 
-import br.Projeto.Ecommerce.model.Usuario;
+
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 

@@ -1,10 +1,10 @@
 package br.Projeto.Ecommerce.controller;
 
-import br.Projeto.Ecommerce.dto.CategoriaRequestDTO;
+
 import br.Projeto.Ecommerce.dto.ProdutoRequestDTO;
-import br.Projeto.Ecommerce.model.Categoria;
 import br.Projeto.Ecommerce.model.Produto;
 import br.Projeto.Ecommerce.repository.ProdutoRepository;
+import br.Projeto.Ecommerce.response.ProdutoResponseDTO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,20 +22,22 @@ public class ProdutoController {
     private ProdutoRepository repository;
 
     @GetMapping
-    public ResponseEntity <List<Produto>> findAll() {
-        List<Produto> produto = repository.findAll();
+    public ResponseEntity <List<ProdutoResponseDTO>> findAll() {
+        List<ProdutoResponseDTO> produto = repository.findAll()
+                .stream().map(ProdutoResponseDTO::new).toList();//Transforma cada produto em um objeto de responsedto
         return ResponseEntity.ok(produto);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Produto> findById(@PathVariable Integer id) {
-        Produto produto = this.repository.findById(id)
+    public ResponseEntity<ProdutoResponseDTO> findById(@PathVariable Integer id) {
+        Produto produto = repository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto não encontrado"));
-        return ResponseEntity.ok(produto);
+        return ResponseEntity.ok(new ProdutoResponseDTO(produto));
     }
 
+
     @PostMapping
-    public ResponseEntity<Produto> save(@Valid @RequestBody ProdutoRequestDTO dto){
+    public ResponseEntity<ProdutoResponseDTO> save(@Valid @RequestBody ProdutoRequestDTO dto){
 
         Produto produto = new Produto();
         produto.setName(dto.nome());
@@ -45,8 +47,8 @@ public class ProdutoController {
 
 
 
-        this.repository.save(produto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(produto);
+        Produto savedProduto = this.repository.save(produto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ProdutoResponseDTO(savedProduto));// salva e retorna apenas campos essenciais
 
     }
 
@@ -59,7 +61,7 @@ public class ProdutoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Produto> update(@PathVariable Integer id,@Valid @RequestBody ProdutoRequestDTO dto){
+    public ResponseEntity<ProdutoResponseDTO> update(@PathVariable Integer id,@Valid @RequestBody ProdutoRequestDTO dto){
         Produto produto = repository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto não encontrado"));
 
@@ -69,7 +71,7 @@ public class ProdutoController {
         produto.setEstoque(dto.estoque());
 
 
-        repository.save(produto);
-        return ResponseEntity.ok(produto);
+        Produto savedProduto = this.repository.save(produto);
+        return ResponseEntity.ok(new ProdutoResponseDTO(savedProduto));
     }
 }
