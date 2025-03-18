@@ -32,6 +32,8 @@ Este projeto utiliza **Spring Boot** no backend e **React com TypeScript** no fr
 
 ## 📂 Estrutura do Projeto
 Projeto-Ecommerce │── backend/ # Código do backend (Spring Boot) │ ├── src/main/java/com/ecommerce/ │ │ ├── entities/ # Modelos de dados │ │ ├── repositories/ # Repositórios (Spring Data JPA) │ │ ├── services/ # Lógica de negócios │ │ ├── controllers/ # Endpoints REST │── frontend/ # Código do frontend (React) │ ├── src/components/ # Componentes reutilizáveis │ ├── src/pages/ # Páginas principais │── README.md # Documentação do projeto
+
+
 📌 Funcionalidades
 ✅ Cadastro e listagem de produtos
 ✅ Sistema de usuários com autenticação JWT
